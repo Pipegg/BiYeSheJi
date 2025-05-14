@@ -1,0 +1,20 @@
+# 忽略虚拟环境
+venv*/
+**/venv*/
+**/site-packages/
+
+# 忽略大文件类型
+*.dll
+*.pyd
+*.so
+*.pyc
+__pycache__/
+
+# 通用忽略
+node_modules/
+dist/
+*.log
+*.env
+
+# 忽略数据库脚本
+database/*.sql

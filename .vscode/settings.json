@@ -1,0 +1,9 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/backend/venv_caotang/Scripts/python.exe",
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/backend/venv_caotang/Lib/site-packages",
+        "${workspaceFolder}/backend"
+    ],
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.autoImportCompletions": true
+} 

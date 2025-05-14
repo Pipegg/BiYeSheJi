@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" href="/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vite App</title>
+        <script>
+            // 阻止对aitopia.ai的请求 - 在页面最早加载时执行
+            window._blockThirdPartyRequests = true;
+            
+            // 重写XMLHttpRequest和fetch以拦截对aitopia.ai的请求
+            (function() {
+                // 保存原始的XMLHttpRequest
+                const originalXHR = window.XMLHttpRequest;
+                // 重写XMLHttpRequest
+                window.XMLHttpRequest = function() {
+                    const xhr = new originalXHR();
+                    const originalOpen = xhr.open;
+                    
+                    xhr.open = function() {
+                        const url = arguments[1];
+                        if (typeof url === 'string' && url.includes('aitopia.ai')) {
+                            console.warn('拦截对外部API的XHR请求:', url);
+                            throw new Error('已拦截对外部API的请求');
+                        }
+                        return originalOpen.apply(this, arguments);
+                    };
+                    
+                    return xhr;
+                };
+                
+                // 保存原始的fetch
+                const originalFetch = window.fetch;
+                // 重写fetch
+                window.fetch = function(resource, init) {
+                    const url = resource instanceof Request ? resource.url : resource;
+                    if (typeof url === 'string' && url.includes('aitopia.ai')) {
+                        console.warn('拦截对外部API的fetch请求:', url);
+                        return Promise.reject(new Error('已拦截对外部API的请求'));
+                    }
+                    return originalFetch.apply(this, arguments);
+                };
+            })();
+        </script>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script type="module" src="/src/main.js"></script>
+    </body>
+</html>
